@@ -14,7 +14,9 @@ const app = express();
 
 const Joi = require("joi");
 
-const expireTime = 24 * 60 * 60 * 1000; //expires after 1 day  (hours * minutes * seconds * millis)
+app.use(express.static("public"));
+
+const expireTime = 1 * 60 * 60 * 1000; //expires after 1 hour  (hours * minutes * seconds * millis)
 
 /* secret information section */
 const mongodb_host = process.env.MONGODB_HOST;
@@ -40,7 +42,7 @@ var mongoStore = MongoStore.create({
 })
 
 app.use(session({ 
-    secret: node_session_secret,
+  secret: node_session_secret,
 	store: mongoStore, //default is memory store 
 	saveUninitialized: false, 
 	resave: true
@@ -71,7 +73,7 @@ app.get("/", (req, res) => {
   });
   
   app.get("/signup", (req, res) => {
-    var missingEmail = req.query.missing;
+  
     var html = `
     create user
     <form action='/signupSubmit' method='post'>
@@ -117,7 +119,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/members", (req, res) => {
-  if (!req.session.user) {
+  if (!req.session.authenticated) {
     res.redirect("/");
     return;
   }
@@ -133,7 +135,7 @@ app.get("/login", (req, res) => {
   var html = `
   <h1>Log in!</h1>
   <form action='/loginSubmit' method='post'>
-  <input name='username' type='text' placeholder='broname'>
+  <input name='username' type='text' placeholder='username'>
   <input name='password' type='password' placeholder='password'>
   <button>Submit</button>
   </form>
@@ -145,7 +147,7 @@ app.post("/loginSubmit", async (req, res) => {
   if (!req.session.authenticated) {
     var html = `Invalid email/password combination. 
     <br>
-    <a href='login'>Try Again</a>`;
+    <a href='/login'>Try Again</a>`;
     res.send(html);
   } else {
     var html = `
@@ -217,7 +219,6 @@ app.get("*", (req, res) => {
   res.status(404);
   res.send("Page not found. <br><img src='/saddunk.gif'>");
 });
-app.use(express.static("public"));
 
 app.listen(port, () => {
   console.log("Node application listening on port " + port);
