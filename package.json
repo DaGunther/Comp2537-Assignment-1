@@ -1,20 +1,28 @@
+
 {
+  "name": "comp2537-assignment-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaGunther/Comp2537-Assignment-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaGunther/Comp2537-Assignment-1.git/issues"
+  },
+  "homepage": "https://github.com/DaGunther/Comp2537-Assignment-1.git#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "connect-mongo": "^4.6.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "express-sessions": "^1.0.6",
-    "joi": "^17.9.2",
-    "mongodb": "^5.3.0",
-    "nodemon": "^2.0.22"
-  },
-  "name": "comp2537-assignment-1",
-  "description": "",
-  "version": "1.0.0",
-  "main": "index..js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "joi": "^17.8.4"
+  }
 }
