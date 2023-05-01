@@ -52,6 +52,7 @@ app.use(session({
 app.get("/", (req, res) => {
   if (req.session.user) {
     var username = req.query.user;
+    console.log(username);
     var html =
     `<h1>Welcome ${username}</h1>` +
     '<form action="/members" method="get">' +
@@ -115,6 +116,8 @@ app.get("/", (req, res) => {
   console.log("User has been inserted");
   
   var html = `Welcome to Slam Dunk<br><a href="/members">Members Zones</a>`;
+  req.session.authenticated = true;
+  req.session.username = username;
   res.send(html);
 });
 
@@ -123,11 +126,10 @@ app.get("/members", (req, res) => {
     res.redirect("/");
     return;
   }
-  var username = req.query.user;
   
   let gifs = ["slamdunk.gif", "slamdunk2.gif", "slamdunk3.gif"];
   let randGif = gifs[Math.floor(Math.random() * gifs.length)];
-  res.send(`Welcome ${username}<br><img src=/${randGif}>
+  res.send(`Welcome<br><img src=/${randGif}>
   <br><a href='/logout'>Sign out</a>`);
 });
 
