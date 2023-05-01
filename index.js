@@ -55,10 +55,10 @@ app.get("/", (req, res) => {
     var html =
     `<h1>Welcome ${username}</h1>` +
     '<form action="/members" method="get">' +
-    '<button action="/members" method="get">Log in</button></form>' +
+    '<button action="/members" method="get">Members page</button></form>' +
     "<br>" +
-    '<form action="/login" method="get">' +
-    '<button action="/login" method="get">Log in</button></form>';
+    '<form action="/logout" method="get">' +
+    '<button action="/logout" method="get">Sign out</button></form>';
     res.send(html);
   } else {
     var html =
