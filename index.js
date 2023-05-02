@@ -115,7 +115,7 @@ app.get("/", (req, res) => {
   });
   console.log("User has been inserted");
   
-  var html = `Welcome to Slam Dunk<br><a href="/members">Members Zones</a>`;
+  var html = `Welcome to Slam Dunk<br><a href="/members">Members Zones</a><a href="/logout">Logout?</a>`;
   req.session.authenticated = true;
   req.session.username = username;
   res.send(html);
@@ -146,17 +146,7 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/loginSubmit", async (req, res) => {
-  if (!req.session.authenticated) {
-    var html = `Invalid email/password combination. 
-    <br>
-    <a href='/login'>Try Again</a>`;
-    res.send(html);
-  } else {
-    var html = `
-    You have successfully logged in!<br><a href="/members">Members Zones</a>
-    <a href="/logout">Logout?</a>`;
-    res.send(html);
-  }
+  
   var username = req.body.username;
   var password = req.body.password;
   
@@ -168,10 +158,7 @@ app.post("/loginSubmit", async (req, res) => {
     return;
   }
   
-  const result = await userCollection
-  .find({ username: username })
-  .project({ username: 1, password: 1, _id: 1 })
-  .toArray();
+  const result = await userCollection.find({username: username}).project({ username: 1, password: 1, _id: 1 }).toArray();
   
   console.log(result);
   if (result.length != 1) {
@@ -195,11 +182,8 @@ app.post("/loginSubmit", async (req, res) => {
 });
 
 app.get("/loggedin", (req, res) => {
-  if (!req.session.authenticated) {
-    res.redirect("/login");
-  }
   var html = `
-  You have successfully logged in!<br><a href="/members">Members Zones</a>
+  Welcome to Slam Dunk<br><a href="/members">Members Zones</a>
   <a href="/logout">Logout?</a>`;
   res.send(html);
 });
@@ -219,7 +203,8 @@ app.get("/logout", (req, res) => {
 
 app.get("*", (req, res) => {
   res.status(404);
-  res.send("Page not found. <br><img src='/saddunk.gif'>");
+  res.send(`Page not found. <br><img src='/saddunk.gif'>
+  <br><a href='/'>Home</a>`);
 });
 
 app.listen(port, () => {
